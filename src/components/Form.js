@@ -108,7 +108,7 @@ const Form = () => {
 
             <button disabled = {disabled} type = "submit">Add to Order</button>
         </form>
-        {/* <pre>{JSON.stringify(order, null, 2)}</pre> */}
+        <pre>{JSON.stringify(order, null, 2)}</pre>
         </section>
     )
 }

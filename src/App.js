@@ -7,7 +7,7 @@ import './App.css'
 const App = () => {
   return (
     <section>
-    <Header>
+    <header>
 
 <h1>Lambda Eats</h1>
 
@@ -17,7 +17,7 @@ const App = () => {
        <li><Link to ="/pizza">Order</Link></li>
    </ul>
 </nav>
-</Header>
+</header>
 
  <Switch>
  <Route exact path = "/" component={Home} />
