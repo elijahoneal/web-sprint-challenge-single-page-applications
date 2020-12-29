@@ -29,7 +29,7 @@ const formSchema = yup.object().shape({
 });  
 
 const Form = () => {
-    const newOrder = {name: "", size: "", toppings: "", instructions: ""}
+    const newOrder = {name: "", size: "", instructions: ""}
     const[ pizzaOrder, setPizzaOrder] = useState(newOrder);
     const [errors , setErrors] = useState(newOrder);
     const [disabled , setDisabled] = useState(true);
@@ -108,7 +108,7 @@ const Form = () => {
 
             <button disabled = {disabled} type = "submit">Add to Order</button>
         </form>
-        <pre>{JSON.stringify(order, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(order, null, 2)}</pre> */}
         </section>
     )
 }
