@@ -1,8 +1,47 @@
 import React, {useState , useEffect} from "react"
+import styled from 'styled-components'
 import axios from "axios";
 import * as yup from "yup";
 
-const toppings = ["pepperoni", "sausage", "beef", "chicken"]
+const Err = styled.div`
+    color:red;
+    text-align:center;
+`
+const FormData = styled.form`
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 70%;
+    margin: 2rem auto;
+    background-color: red;
+    padding: 0.5rem;
+    border-radius: 2rem;
+`
+const Toppings = styled.section`
+    display:flex;
+    align-items: center;
+    flex-direction: column;
+`
+const Label = styled.label`
+    font-size: 1.4rem;
+    font-weight: 600;
+`
+const Select =styled.select`
+    font-size: 1.4rem;
+    font-weight: 600;
+`
+const Input = styled.input`
+    width: 50%;
+    font-size: 1rem
+
+`
+const Button = styled.button`
+    font-size: 1.5rem;
+    padding: 1rem 1.5rem;
+    border: 0.2rem solid red;
+    color: red;
+
+`
 
 const formSchema = yup.object().shape({
     name: yup
@@ -29,16 +68,21 @@ const formSchema = yup.object().shape({
 });  
 
 const Form = () => {
-    const newOrder = {name: "", size: "", instructions: ""}
-    const[ pizzaOrder, setPizzaOrder] = useState(newOrder);
-    const [errors , setErrors] = useState(newOrder);
+    const [ pizzaOrder, setPizzaOrder] = useState({
+        name: "", size: "", 
+        pepperoni:false, sausage:false,
+        beef:false, chicken:false,
+        instructions: ""});
+
+    const toppings = ["pepperoni", "sausage", "beef", "chicken"]
+
+    const [errors , setErrors] = useState({name: ""});
     const [disabled , setDisabled] = useState(true);
     
-    console.log(pizzaOrder);
     const setFormErrors = (name , value) => {
         yup.reach(formSchema , name).validate(value)
         .then( () => setErrors({...errors , [name]: ""}))
-        .catch(err => setErrors({...errors , [name]: err.errors[0] }))
+        .catch( err => setErrors({...errors , [name]: err.errors[0] }))
     }
 
     const handleChange = event => {
@@ -48,21 +92,17 @@ const Form = () => {
         setPizzaOrder({...pizzaOrder , [name]: updateOrder});
     }
 
-    const [post , setPost] = useState([]);
     useEffect( () => {
-        formSchema.isValid(pizzaOrder).then((valid) => setDisabled(!true))
-    },[pizzaOrder])
-
-    const [ order, setOrder] = useState([]);
+        formSchema.isValid(pizzaOrder)
+        .then(valid => setDisabled(!true))
+    }, [ pizzaOrder ])
 
     const submitForm = (event) => {
         event.preventDefault();
         axios.post("https://reqres.in/api/users" , pizzaOrder)
         .then( res => {
-            setPost(res.data);
-            console.log("success" , post);
-            setOrder(...post)
-            setPizzaOrder(newOrder)
+            console.log("success" , res.data);
+            setPizzaOrder({name: "", size: "", instructions: ""})
         })
         .catch( err => console.log(err.res))
         
@@ -71,11 +111,11 @@ const Form = () => {
 
     return (
     <section className = "formData">
-            <div className="errorList">{errors.name}</div>
+            <Err className="errorList">{errors.name}</Err>
             
-            <form onSubmit = {submitForm}>
-            <label htmlFor = "name">Name</label>
-                <input
+            <FormData onSubmit = {submitForm}>
+            <Label htmlFor = "name">Name</Label>
+                <Input
                 id="name"
                 name = "name"
                 value = {pizzaOrder.name}
@@ -83,32 +123,31 @@ const Form = () => {
                 placeholder = "Enter Name"
                 onChange = {handleChange}
                 />
-            <label htmlFor = "size"></label>
-            <select id="size" name="size" form ="pizzaSize" onChange = {handleChange}>
+            <Label htmlFor = "size">Pizza Size</Label>
+            <Select id="size" name="size" form ="pizzaSize" onChange = {handleChange}>
                 <option value="10in">10" Pizza</option>
                 <option value="14in">14" Pizza</option>
                 <option value="18in">18" Pizza</option>
-             </select>
+             </Select>
 
             {/* Toppings */}
             {toppings.map( topping => {
                return (
-                <section>
-                <label htmlFor = {topping}>{topping}</label>
-                <input id={topping} name={topping} value={topping}
+                <Toppings>
+                <Label htmlFor = {topping}>{topping}</Label>
+                <Input id={topping} name={topping} value={topping}
                 type="checkbox" checked = {pizzaOrder.topping} onChange = {handleChange}/>
-                </section>
+                </Toppings>
                )
                
             })}
             
 
-            <label htmlFor ="instructions">Special Instructions (Optional)</label>
-            <input id="instructions" name="instructions" type="textarea" onChange = {handleChange}/>
+            <Label htmlFor ="instructions">Special Instructions (Optional)</Label>
+            <Input id="instructions" name="instructions" type="textarea" onChange = {handleChange}/>
 
-            <button disabled = {disabled} type = "submit">Add to Order</button>
-        </form>
-        {/* <pre>{JSON.stringify(order, null, 2)}</pre> */}
+            <Button disabled = {disabled} type ="submit">Add to Order</Button>
+        </FormData>
         </section>
     )
 }
