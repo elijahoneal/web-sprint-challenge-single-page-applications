@@ -50,19 +50,20 @@ const formSchema = yup.object().shape({
         .min(2, "Name must be at least two letters"),
     size: yup
         .string()
-        .oneOf(["10 in"] , ["14 in"] , ["18 in"]),
+        .required("Pizza Size is required")
+        .oneOf(["10in" , "14in" , "18in"]),
     pepperoni: yup  
         .boolean()
-        .oneOf([true], "N/A"),
+        .oneOf([true , false], "N/A"),
     sausage: yup  
         .boolean()
-        .oneOf([true], "N/A"), 
+        .oneOf([true , false], "N/A"), 
     beef: yup  
         .boolean()
-        .oneOf([true], "N/A"), 
+        .oneOf([true , false], "N/A"), 
     chicken: yup  
         .boolean()
-        .oneOf([true], "N/A"),
+        .oneOf([true , false], "N/A"),
     instructions: yup
         .string()   
 });  
@@ -76,7 +77,11 @@ const Form = () => {
 
     const toppings = ["pepperoni", "sausage", "beef", "chicken"]
 
-    const [errors , setErrors] = useState({name: ""});
+    const [errors , setErrors] = useState({
+        name: "", size: "", 
+        pepperoni:false, sausage:false,
+        beef:false, chicken:false,
+        instructions: ""});
     const [disabled , setDisabled] = useState(true);
     
     const setFormErrors = (name , value) => {
@@ -94,7 +99,7 @@ const Form = () => {
 
     useEffect( () => {
         formSchema.isValid(pizzaOrder)
-        .then(valid => setDisabled(!true))
+        .then(valid => setDisabled(!valid))
     }, [ pizzaOrder ])
 
     const submitForm = (event) => {
@@ -102,7 +107,11 @@ const Form = () => {
         axios.post("https://reqres.in/api/users" , pizzaOrder)
         .then( res => {
             console.log("success" , res.data);
-            setPizzaOrder({name: "", size: "", instructions: ""})
+            setPizzaOrder({
+                name: "", size: "", 
+                pepperoni:false, sausage:false,
+                beef:false, chicken:false,
+                instructions: ""})
         })
         .catch( err => console.log(err.res))
         
@@ -112,6 +121,7 @@ const Form = () => {
     return (
     <section className = "formData">
             <Err className="errorList">{errors.name}</Err>
+            <Err className="errorList">{errors.size}</Err>
             
             <FormData onSubmit = {submitForm}>
             <Label htmlFor = "name">Name</Label>
@@ -124,11 +134,13 @@ const Form = () => {
                 onChange = {handleChange}
                 />
             <Label htmlFor = "size">Pizza Size</Label>
-            <Select id="size" name="size" form ="pizzaSize" onChange = {handleChange}>
-                <option value="10in">10" Pizza</option>
-                <option value="14in">14" Pizza</option>
-                <option value="18in">18" Pizza</option>
+            <Select id="size" name="size"  onChange = {handleChange}>
+                <option type="text" value=" ">Choose A Size</option>
+                <option type="text" value="10in">10" Pizza</option>
+                <option type="text" value="14in">14" Pizza</option>
+                <option type="text" value="18in">18" Pizza</option>
              </Select>
+
 
             {/* Toppings */}
             {toppings.map( topping => {
