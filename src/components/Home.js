@@ -27,7 +27,13 @@ const FoodItem = styled.article`
 display: flex;
 flex-flow: column nowrap;
 align-items: center;
-width: 30%;
+width: 80%;
+@media only screen and (min-width: 768px) {
+    width: 45%;
+}
+@media only screen and (min-width: 1024px) {
+    width: 30%;
+}
 
 `
 
