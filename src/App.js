@@ -62,7 +62,7 @@ text-align: center;
   .feature-text{
     position: absolute;
 	color:#fff;
-	top: 50%;
+	top: 30%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	width:50%;
