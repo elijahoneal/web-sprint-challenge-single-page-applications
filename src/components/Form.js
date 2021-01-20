@@ -1,5 +1,4 @@
-import React, {useState , useEffect, Component} from "react"
-import { Route } from 'react-router-dom'
+import React, {useState , useEffect} from "react"
 import styled from 'styled-components'
 import axios from "axios";
 import * as yup from "yup";
