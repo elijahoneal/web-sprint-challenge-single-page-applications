@@ -12,6 +12,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.spinach}
+                    data-cy='spinachbox'
                 />
             </label>
             <label>
@@ -21,6 +22,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.mushrooms}
+                    data-cy='mushroomsbox'
                 />
             </label>
             <label>
@@ -30,6 +32,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.olives}
+                    data-cy='olivesbox'
                 />
             </label>
             <label>
@@ -39,6 +42,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.jalapenos}
+                    data-cy='jalapenosbox'
                 />
             </label>
             <label>
@@ -48,6 +52,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.pineapple}
+                    data-cy='pineapplebox'
                 />
             </label>
             <label>
@@ -57,6 +62,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.pepperoni}
+                    data-cy='pepperonibox'
                 />
             </label>
             <label>
@@ -66,6 +72,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.beef}
+                    data-cy='beefbox'
                 />
             </label>
             <label>
@@ -75,6 +82,7 @@ const Toppings = ( {onChange , values} ) => {
                     type='checkbox'
                     onChange = {onChange}
                     checked = {values.chicken}
+                    data-cy='chickenbox'
                 />
             </label>
         </section>

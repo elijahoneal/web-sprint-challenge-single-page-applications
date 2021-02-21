@@ -85,6 +85,7 @@ const Form = () => {
                         onChange = {onChange}
                         value={formValues.name}
                         placeholder='enter your name'
+                        data-cy='nameInput'
                     />
                 </label>
                 <label>
@@ -92,7 +93,8 @@ const Form = () => {
                     <select
                         name="size"
                         onChange = {onChange}
-                        value={formValues.size}>
+                        value={formValues.size}
+                        data-cy='sizeSelect'>
                         <option value=''>--Select A Pizza Size--</option>
                         <option value='10in'>10in</option>
                         <option value='14in'>14in</option>
@@ -114,9 +116,13 @@ const Form = () => {
                         onChange = {onChange}
                         value={formValues.instructions}
                         placeholder='Enter Special Instructions'
+                        data-cy='introInput'
                     />
                 </label>
-                <button disabled = {disable}>Add to Order</button>
+                <button
+                disabled = {disable}
+                data-cy='button'
+                >Add to Order</button>
             </form>
            
         </section>
