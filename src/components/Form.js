@@ -47,7 +47,7 @@ const Form = () => {
         .then(isValid => setDisable(!isValid))
         .catch( err => console.log(err))
     },[formValues] )
-    
+
     // Object of Returned Form
     const newOrder = {
         name: formValues.name,
@@ -99,9 +99,13 @@ const Form = () => {
                         <option value='18in'>18in</option>
                     </select>
                 </label>
-                <Route path='/pizza'>
-                    <Toppings onChange = {onChange}  values = {formValues}/>
-                </Route>
+                <label>
+                    
+                    <Route path='/pizza'>
+                        Toppings
+                        <Toppings onChange = {onChange}  values = {formValues}/>
+                    </Route>
+                </label>
                 <label>
                     Special instructions(Optional)
                     <textarea
