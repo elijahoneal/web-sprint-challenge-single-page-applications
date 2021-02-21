@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Toppings from './Toppings'
+import FormSchema from './FormSchema'
 import { Route } from 'react-router-dom'
 import axios from 'axios'
-
+import * as Yup from 'yup'
 
 const initialForm = { 
     // Name Input
@@ -23,16 +24,30 @@ const Form = () => {
     const [formValues , setFormValues] = useState(initialForm)
     const [formErrors , setFormErrors] = useState(initialFormErrors)
     const [disable , setDisable] = useState(true)
-    
 
-      // Sets Form when value is changed
-      const onChange = e => {
-        const { name , value , type , checked } = e.target
-        const isChecked = type === 'checkbox' ? checked : value
-        setFormValues({ ...formValues, [name]: isChecked })
 
+    // Validate Name and Size 
+    const ValidateForm = (name , value) => {
+        Yup.reach(FormSchema , name)
+        .validate(value)
+        .then( () => setFormErrors( {...formErrors , [name]: ''} ) )
+        .catch( err => setFormErrors( {...formErrors , [name]: err.errors[0]} ) ) 
+    }
+    // Sets Form when value is changed
+    const onChange = e => {
+    const { name , value , type , checked } = e.target
+    const isChecked = type === 'checkbox' ? checked : value
+    setFormValues({ ...formValues, [name]: isChecked })
+    ValidateForm( name , value )
     }
 
+    // Enable Form Button
+    useEffect( () => {
+        FormSchema.isValid(formValues)
+        .then(isValid => setDisable(!isValid))
+        .catch( err => console.log(err))
+    },[formValues] )
+    
     // Object of Returned Form
     const newOrder = {
         name: formValues.name,
@@ -58,6 +73,9 @@ const Form = () => {
     return(
         <section>
             <h3>Build Your Own Pizza</h3>
+            {/* Render Form Errors */}
+            <div>{formErrors.name}</div>
+            <div>{formErrors.size}</div>
         <form id='pizzaOrder' onSubmit={onSubmit}>
                 <label>
                     Name
@@ -94,8 +112,9 @@ const Form = () => {
                         placeholder='Enter Special Instructions'
                     />
                 </label>
-                <button disable = {disable}>Add to Order</button>
+                <button disabled = {disable}>Add to Order</button>
             </form>
+           
         </section>
     )
 }
