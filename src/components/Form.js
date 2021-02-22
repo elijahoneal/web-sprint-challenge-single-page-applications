@@ -4,7 +4,51 @@ import FormSchema from './FormSchema'
 import { Route } from 'react-router-dom'
 import axios from 'axios'
 import * as Yup from 'yup'
+import styled from 'styled-components'
 
+// Styling
+const PizzaForm = styled.section`
+    width:90%;
+    margin: 2rem auto;
+    text-align:center;
+    h3 {
+        color:red;
+        font-size: 1.5rem;
+    }
+    form {
+        display: flex;
+        flex-flow: column nowrap;
+        width:60%;
+        margin: 1rem auto;
+        
+        align-items:center;
+        label , button {
+            background-color: red;
+            color: #fff;
+            font-size: 1.2rem;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            width:91%;
+            height:3rem;
+            margin:auto;
+        }
+        input , select , textarea {
+            border: none;
+            width:90%;
+            height:3rem;
+            background-color: #fff;
+            margin:0 auto 1.5rem;
+        }
+
+        button {
+            border:none;
+            
+        }
+        
+
+    }
+`
 const initialForm = { 
     // Name Input
     name:'',
@@ -71,25 +115,26 @@ const Form = () => {
     }
 
     return(
-        <section>
+        <PizzaForm>
             <h3>Build Your Own Pizza</h3>
             {/* Render Form Errors */}
             <div>{formErrors.name}</div>
             <div>{formErrors.size}</div>
         <form id='pizzaOrder' onSubmit={onSubmit}>
-                <label>
-                    Name
+            {/* Name */}
+                <label htmlFor='name'>Name</label>
+                    
                     <input
                         name='name'
                         type='text'
                         onChange = {onChange}
                         value={formValues.name}
-                        placeholder='enter your name'
+                        placeholder='Enter your name...'
                         data-cy='nameInput'
                     />
-                </label>
-                <label>
-                    Pizza Size
+                {/* Size DropDown */}
+                <label htmlFor='size'>Pizza Size</label>
+                    
                     <select
                         name="size"
                         onChange = {onChange}
@@ -100,16 +145,15 @@ const Form = () => {
                         <option value='14in'>14in</option>
                         <option value='18in'>18in</option>
                     </select>
-                </label>
-                <label>
+                {/* Toppings Checkboxes */}
+                <label htmlFor='toppings'> Toppings</label>
                     
                     <Route path='/pizza'>
-                        Toppings
-                        <Toppings onChange = {onChange}  values = {formValues}/>
+                        <Toppings name='toppings' onChange = {onChange}  values = {formValues}/>
                     </Route>
-                </label>
-                <label>
-                    Special instructions(Optional)
+                {/* Special Instructions Text */}
+                <label htmlFor='instructions'>Special instructions(Optional)</label>
+                    
                     <textarea
                         name='instructions'
                         form='pizzaOrder'
@@ -118,14 +162,14 @@ const Form = () => {
                         placeholder='Enter Special Instructions'
                         data-cy='introInput'
                     />
-                </label>
+                
                 <button
                 disabled = {disable}
                 data-cy='button'
                 >Add to Order</button>
             </form>
            
-        </section>
+        </PizzaForm>
     )
 }
 
