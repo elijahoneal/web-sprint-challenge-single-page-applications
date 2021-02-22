@@ -68,7 +68,7 @@ const Form = () => {
     const [formValues , setFormValues] = useState(initialForm)
     const [formErrors , setFormErrors] = useState(initialFormErrors)
     const [disable , setDisable] = useState(true)
-
+    const [displayOrder , setDisplayOrder] = useState([])
 
     // Validate Name and Size 
     const ValidateForm = (name , value) => {
@@ -97,13 +97,15 @@ const Form = () => {
         name: formValues.name,
         size: formValues.size,
         toppings: ['spinach' , 'mushrooms', 'olives', 'jalapenos', 'pineapple ', 'pepperoni' , 'beef' , 'chicken']
-        .filter(topping => formValues[topping])
+        .filter(topping => formValues[topping]),
+        instructions: formValues.instructions
     }
     // Posts New Order
     const postNewOrder = order => {
         axios.post("https://reqres.in/api/order",order)
         .then( res => {
             console.log(res.data)
+            setDisplayOrder([...displayOrder , res.data])
             setFormValues(initialForm)
         })
         .catch( err => console.log(err))
@@ -168,7 +170,16 @@ const Form = () => {
                 data-cy='button'
                 >Add to Order</button>
             </form>
-           
+           {displayOrder.map( order => {
+               return (
+                   <div key={order.id}>
+                       <p>Name: {order.name}</p>
+                       <p>Pizza Size: {order.size}</p>
+                       <p>Toppings: {order.toppings}</p>
+                       <p>Instructions: {order.instructions}</p>
+                   </div>
+               )
+           })}
         </PizzaForm>
     )
 }

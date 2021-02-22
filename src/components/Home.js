@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+// images
 import pasta from '../images/pasta.jpg'
 import healthy from '../images/healthy.jpg'
 import noodles from '../images/noodles.jpg'
@@ -12,15 +13,19 @@ const HomePage = styled.section`
 .banner {
     position: relative;
     text-align: center;
+    height:12rem;
     color: white;
+    background-color:#000;
     
     img {
-        width:90%;
-        height:10rem;
+        width:100%;
+        height:12rem;
         object-fit:cover;
+        opacity: 0.5;
     }
 }
-h1{
+h2{ 
+    text-transform: capitalize;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
@@ -35,7 +40,7 @@ h1{
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
-    
+    color: red;
     article {
         display: flex;
         flex-flow: column nowrap;
@@ -68,7 +73,7 @@ return(
     <HomePage>
         <section className='banner'>
         <img src= {header} alt='Pizza by Pixabay'/>
-        <h1>Your Favorite food delivered while coding</h1>
+        <h2>Your Favorite food delivered while coding</h2>
         </section>
   <section className = "gallery" >
       <article>
